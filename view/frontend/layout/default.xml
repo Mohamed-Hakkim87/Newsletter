@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content.top">
+            <block class="Hikmadh\Newsletter\Block\Subscribe" name="form.popup.subscribe" as="form_popup_subscribe" before="-" template="Hikmadh_Newsletter::popup-subscribe.phtml"
+            ifconfig="simplepopupwindow/general/enabled"/>
+        </referenceContainer>
+    </body>
+</page>

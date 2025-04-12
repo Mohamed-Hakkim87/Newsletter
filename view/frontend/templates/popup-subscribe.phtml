@@ -1,0 +1,143 @@
+<?php
+    $block_id = $block->getSimplePopupWindowBlockId();
+?>
+
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+</head>
+
+<div class="display-popup">
+    <div id="popup-newsletter" style="position: relative;">
+
+        <div class="background-image-container">
+            <img src="<?php echo $this->getViewFileUrl('Hikmadh_Newsletter::images/bg-newsletter.jpg'); ?>" />
+        </div>
+        
+        <div class="content-container">
+            <form class="form subscribe"
+                  method="post"
+                  id="newsletter-popup-validate-detail"
+                  data-mage-init='{"validation": {"errorClass": "mage-error"}}'>
+                <div class="w-newsletter clearfix">
+
+                    <div class="newsletter-info">
+
+                        <div class="top-newsletter">SIGN UP</div>
+                        <div class="bottom-newsletter">NEWSLETTER</div>
+                        <p class="news-description">Subscribe to the Market mailing list to receive updates on new arrivals,
+                            special offers and other discount information.</p>
+
+                        <table>
+                        <tr>
+                            <td><span><input name="email" type="email" id="newsletter-email" class="input-text"
+                                onfocus="if(this.value=='<?php echo __("Your email address") ?>') this.value='';"
+                                onblur="if(this.value=='') this.value='<?php echo __("Your email address") ?>';"
+                                value="<?php echo __("Your email address") ?>"  
+                                data-validate="{required:true, 'validate-email':true}"/></span></td>
+
+                            <td><button class="action subscribe primary" title="<?php echo __('Subscribe') ?>" type="submit" id="newsletter-popup-trigger">
+                                        <?php echo __('Subscribe') ?>
+                            </button></td>
+                        </tr>
+                        </table>
+                        <div id="newsletter-popup-message-container"></div>
+                       
+                       
+                        <div class="social-popup">
+                            <ul>
+                                <li>
+                                    <a href="#">
+                                        <span class="fa fa-facebook"><span class="hidden"></span></span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+                                        <span class="fa fa-twitter"><span class="hidden"></span></span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+                                        <span class="fa fa-pinterest"><span class="hidden"></span></span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+                                        <span class="fa fa-vimeo"><span class="hidden"></span></span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#">
+                                        <span class="fa fa-youtube"><span class="hidden"></span></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- <div id="newsletter-popup-message-container">
+        </div> -->
+    </div>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "#popup-newsletter": {
+            "Hikmadh_Newsletter/js/process-popup-newsletter": {        
+                 
+            }
+        }
+    }
+</script>
+
+
+<script type="text/javascript">
+    require(['jquery'], function ($) {
+        $(document).on('click', '#newsletter-popup-trigger', function (e) {
+            e.preventDefault(); 
+
+            var email = $('#newsletter-email').val();
+            $.ajax({
+                url: 'hikmadh_newsletter/subscriber/new',
+                type: 'post',
+                dataType: 'html',
+                data: {email: email},
+                success: function (response) {
+
+                    $('#newsletter-popup-message-container').html(response);
+
+                    if (response.indexOf('Thank you for your subscription.') !== -1) {
+                        $('#newsletter-popup-message-container').css({
+                            'color': '#006400'
+                        });
+                    } else {
+                        $('#newsletter-popup-message-container').css({
+                            'color': '#e02b27'
+                        });
+                    }
+
+                    if (response.indexOf('success') !== -1) {
+                        $('.form.subscribe').hide();
+                    }
+
+                    $('#newsletter-popup-message-container').show();
+                },
+                error: function () {
+                    alert('Something went wrong with the subscription.');
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+
+
+
